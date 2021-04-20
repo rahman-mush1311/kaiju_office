@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    name: kaiju-ingress
+    namespace: stage-back
+    annotations:
+        cert-manager.io/cluster-issuer: letsencrypt-prod
+        kubernetes.io/ingress.class: nginx
+        kubernetes.io/tls-acme: "true"
+        nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+    rules:
+        - host: kaiju.staging.k8s.deligram.com
+          http:
+              paths:
+                  - backend:
+                        serviceName: kaiju-svc
+                        servicePort: 80
+                    path: /
+    tls:
+        - hosts:
+              - kaiju.staging.k8s.deligram.com
+          secretName: tls-staging-kaiju-k8s-deligram-com

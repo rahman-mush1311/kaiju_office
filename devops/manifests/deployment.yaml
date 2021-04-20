@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kaiju-deployment
+  namespace: stage-back
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kaiju-app
+  template:
+    metadata:
+      labels:
+        project: deligram
+        app: kaiju-app
+    spec:
+      containers:
+        - name: kaiju-app
+          env:
+            - name: CONSUL_URL
+              value: consul-kv.default.svc:8500
+            - name: CONSUL_ENV
+              value: flash-admin/staging
+          image: harbor.deligram.com/flash-admin/flash-app:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+              name: kaiju-port
+              protocol: TCP
+      imagePullSecrets:
+        - name: regcred
