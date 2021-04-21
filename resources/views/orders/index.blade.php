@@ -93,6 +93,8 @@
                     <thead>
                     <tr>
                         <th scope="col">Order ID</th>
+                        <!--<th scope="col">Real ID</th>
+                        <th scope="col">Dist ID</th>-->
                         <th scope="col">Shop Name</th>
                         <th scope="col">Customer Name</th>
                         <th scope="col">Customer Mobile</th>
@@ -109,6 +111,8 @@
                     @foreach($orders as $order)
                         <tr>
                             <td data-title="Order ID">{{ $order->tracking_id ?? '' }}</td>
+                            <!--<td data-title="Real ID">{{ $order->id}}</td>
+                            <td data-title="Distributor ID">{{ $order->distributor_id}}</td>-->
                             <td data-title="Shop Name">{{ $order->customer->shop_name ?? '' }}</td>
                             <td data-title="Customer">{{ $order->customer->name ?? '' }}</td>
                             <td data-title="Mobile">{{ $order->customer->mobile ?? '' }}</td>
@@ -118,7 +122,7 @@
                             <td data-title="Distributor">{{ $order->distributor->name ?? '' }}</td>
                             <td data-title="Dist. Contact">{{ $order->distributor->mobile ?? '' }}</td>
                             <td data-title="Actions">
-                                <!-- <a href="{{ route('order.show', [$order->tracking_id ?? '']) }}" class="btn btn-sm btn-info">View</a> -->
+                               <!--  <a href="{{ route('order.show', [$order->tracking_id ?? '']) }}" class="btn btn-sm btn-info">View</a> -->
                                 <a href="{{ route('order.edit', [$order->id]) }}" class="btn btn-sm btn-info">Edit</a>
                             </td>
                         </tr>

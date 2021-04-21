@@ -20,21 +20,27 @@ class OrderController extends Controller
 {
     public function index(Request $request)
     {
-        $orders = app(OrderService::class)->all($request);
-        $customer = $request->get('customer_id') ? Customer::find($request->get('customer_id')) : [];
-        $distributor = $request->get('distributor_id') ? Distributor::find($request->get('distributor_id')) : [];
-        $input = $request->all();
 
-        return view('orders.index', compact('orders', 'input', 'customer', 'distributor'));
+            $orders = app(OrderService::class)->all($request);
+            $customer = $request->get('customer_id') ? Customer::find($request->get('customer_id')) : [];
+            $distributor = $request->get('distributor_id') ? Distributor::find($request->get('distributor_id')) : [];
+            $input = $request->all();
+            //$input = $request['search'];
+
+            //dd($orders);
+            return view('orders.index', compact('orders', 'input', 'customer', 'distributor'));
+
     }
 
     public function edit($id)
     {
+        //dd("Edit controller");
         $order = app(OrderService::class)->getById($id);
+        //$order = app(OrderService::class)->getByTrackingId($id);
         $statuses = Order::NEXT_STATUSES[$order->status];
         $salesRepresentatives = SalesRepresentative::with(['user'])
             ->where('distributor_id', data_get($order, 'distributor_id'))->get();
-
+        //dd($order);
         return view('orders.edit', compact('order', 'statuses', 'salesRepresentatives'));
     }
 
@@ -47,7 +53,7 @@ class OrderController extends Controller
         }
 
         $statuses = Order::NEXT_STATUSES[$order->status];
-
+        //dd($order);
         return view('orders.show', compact('order', 'statuses'));
     }
 

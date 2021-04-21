@@ -24,11 +24,12 @@ class OrderService extends BaseService
 
         if ($search = $request->get('search')) {
             $query->leftJoin('customers', 'customers.id', '=', 'orders.customer_id')
+                ->select('orders.*')
                 ->leftJoin('distributors', 'distributors.id', '=', 'orders.distributor_id');
-            $query->where(function($query) use($search) {
-                $query->where('customers.mobile', 'like', '%'.$search.'%')
-                    ->orWhere('distributors.mobile', 'like', '%'.$search.'%')
-                    ->orWhere('orders.tracking_id', 'like', '%'.$search.'%');
+            $query->where(function ($query) use ($search) {
+                $query->where('customers.mobile', 'like', '%' . $search . '%')
+                    ->orWhere('distributors.mobile', 'like', '%' . $search . '%')
+                    ->orWhere('orders.tracking_id', 'like', '%' . $search . '%');
             });
         }
 
@@ -81,9 +82,17 @@ class OrderService extends BaseService
             $srId = SalesRepresentative::where('user_id',$request->user()->id)->first()->id;
             $query->where('sales_representative_id', $srId);
         }
+        /*if ($search = $request->get('search')) {
+            $query->join('customers', 'customers.id', '=', 'orders.customer_id')
+                ->join('distributors', 'distributors.id', '=', 'orders.distributor_id')
+                 ->where('customers.mobile', 'like', '%'.$search.'%')
+                ->orWhere('distributors.mobile', 'like', '%'.$search.'%')
+                ->orWhere('orders.tracking_id', 'like', '%'.$search.'%');
+        }*/
 
         $query->orderBy('orders.id', $request->get('sort', 'desc'));
-
+         //$query->find('orders.id');
+        //$query->orderBy('orders.id');
         return $query->paginate(env('PER_PAGE_PAGINATION'));
     }
 
@@ -120,6 +129,7 @@ class OrderService extends BaseService
     public function getByTrackingId($id)
     {
         $order = Order::with(['line_items.product', 'customer', 'distributor'])->where('tracking_id',$id);
+        //$order = Order::with(['line_items.product', 'customer', 'distributor','status_history.creator'])->where('tracking_id',$id);
 
         if (Gate::allows('isDistributor')) {
             $distributorId = Distributor::where('user_id',auth()->user()->id)->first()->id;

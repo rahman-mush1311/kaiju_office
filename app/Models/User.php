@@ -7,11 +7,16 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Tymon\JWTAuth\Contracts\JWTSubject;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use database\factories\UserFactory;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+//use Illuminate\Database\Eloquent\Factory;
 
 
 class User extends Authenticatable implements JWTSubject
 {
     use Notifiable;
+   // use HasFactory;
+
 
     public $incrementing = false;
     public $keyType = 'string';
