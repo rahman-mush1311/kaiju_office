@@ -93,7 +93,7 @@
                     <thead>
                     <tr>
                         <th scope="col">Order ID</th>
-                        <!--<th scope="col">Real ID</th>
+                       <!-- <th scope="col">Real ID</th>
                         <th scope="col">Dist ID</th>-->
                         <th scope="col">Shop Name</th>
                         <th scope="col">Customer Name</th>
@@ -111,7 +111,7 @@
                     @foreach($orders as $order)
                         <tr>
                             <td data-title="Order ID">{{ $order->tracking_id ?? '' }}</td>
-                            <!--<td data-title="Real ID">{{ $order->id}}</td>
+                           <!-- <td data-title="Real ID">{{ $order->id}}</td>
                             <td data-title="Distributor ID">{{ $order->distributor_id}}</td>-->
                             <td data-title="Shop Name">{{ $order->customer->shop_name ?? '' }}</td>
                             <td data-title="Customer">{{ $order->customer->name ?? '' }}</td>
